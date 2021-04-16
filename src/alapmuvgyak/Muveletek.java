@@ -50,7 +50,7 @@ public class Muveletek extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuFajl = new javax.swing.JMenu();
         mnuFajlMegnyit = new javax.swing.JMenuItem();
-        mnuFajlMent = new javax.swing.JMenuItem();
+        mentesMenuButton = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         mmoentesMaskentMenuButton = new javax.swing.JMenuItem();
         mnuFajlKilep = new javax.swing.JMenuItem();
@@ -207,12 +207,22 @@ public class Muveletek extends javax.swing.JFrame {
         );
 
         mnuFajl.setText("Fájl");
+        mnuFajl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuFajlActionPerformed(evt);
+            }
+        });
 
         mnuFajlMegnyit.setText("Megnyit");
         mnuFajl.add(mnuFajlMegnyit);
 
-        mnuFajlMent.setText("Ment");
-        mnuFajl.add(mnuFajlMent);
+        mentesMenuButton.setText("Ment");
+        mentesMenuButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mentesMenuButtonActionPerformed(evt);
+            }
+        });
+        mnuFajl.add(mentesMenuButton);
         mnuFajl.add(jSeparator1);
 
         mmoentesMaskentMenuButton.setText("Mentés másként");
@@ -286,35 +296,53 @@ public class Muveletek extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEllenorzesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEllenorzesActionPerformed
-        
+
     }//GEN-LAST:event_btnEllenorzesActionPerformed
 
     private void btnMegoldasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMegoldasActionPerformed
-        
+
     }//GEN-LAST:event_btnMegoldasActionPerformed
 
     private void mmoentesMaskentMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mmoentesMaskentMenuButtonActionPerformed
+        JFileChooser fc = new JFileChooser(new File("."));
+        fc.setDialogTitle("Fájl mentése másként");
+
+        int valasztottGomb = fc.showSaveDialog(this);
+        if (valasztottGomb == JFileChooser.APPROVE_OPTION) {
+            File f = fc.getSelectedFile();
+            lblEredmeny.setText("<html> Elérés : " + f.getPath() + "<br> Könyvtár " + f.getName() + "</html");
+            try {
+                Files.write(Paths.get(f.getPath() + "/stat.txt"), "Statisztoka : ".getBytes())
+            } catch (IOException ex) {
+                Logger.getLogger(Muveletek.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_mmoentesMaskentMenuButtonActionPerformed
+
+    private void mnuFajlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFajlActionPerformed
+        
+    }//GEN-LAST:event_mnuFajlActionPerformed
+
+    private void mentesMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mentesMenuButtonActionPerformed
         JFileChooser fc = new JFileChooser();
         fc.setDialogTitle("Fájl mentése");
         fc.setCurrentDirectory(new File("."));
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        
+
         int valasztottGomb = fc.showSaveDialog(this);
-        if(valasztottGomb == JFileChooser.APPROVE_OPTION){
+        if (valasztottGomb == JFileChooser.APPROVE_OPTION) {
             File f = fc.getSelectedFile();
             if (f.isDirectory()) {
-                lblEredmeny.setText("<html> Elérés : " + f.getPath()+"<br> Könyvtár "+f.getName()+"</html");
-                try{
-                    Files.write(Paths.get(f.getPath() + "/stat.txt") , "Statisztoka : ".getBytes())
-                }catch(IOException ex){
-                    Logger.getLogger(Muveletek.class.getName()).log(Level.SEVERE,null, ex);
+                lblEredmeny.setText("<html> Elérés : " + f.getPath() + "<br> Könyvtár " + f.getName() + "</html");
+                try {
+                    Files.write(Paths.get(f.getPath() + "/stat.txt"), "Statisztoka : ".getBytes())
+                } catch (IOException ex) {
+                    Logger.getLogger(Muveletek.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             }
         }
-        
-        
-    }//GEN-LAST:event_mmoentesMaskentMenuButtonActionPerformed
+    }//GEN-LAST:event_mentesMenuButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -377,11 +405,11 @@ public class Muveletek extends javax.swing.JFrame {
     private javax.swing.JLabel lblSzorzasProba;
     private javax.swing.JLabel lblValasz;
     private javax.swing.JLabel lbllblOsszProba;
+    private javax.swing.JMenuItem mentesMenuButton;
     private javax.swing.JMenuItem mmoentesMaskentMenuButton;
     private javax.swing.JMenu mnuFajl;
     private javax.swing.JMenuItem mnuFajlKilep;
     private javax.swing.JMenuItem mnuFajlMegnyit;
-    private javax.swing.JMenuItem mnuFajlMent;
     private javax.swing.JMenu osszeadMenuButton;
     private javax.swing.JRadioButtonMenuItem osztasMenuButton;
     private javax.swing.JPanel pnlGyakorlas;
