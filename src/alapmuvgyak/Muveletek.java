@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.stage.FileChooser;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -371,7 +372,7 @@ public class Muveletek extends javax.swing.JFrame {
             try {
                 
                 if (mentes) {
-                    Files.write(path, "Statisztika:".getBytes());
+                    Files.write(path, tartalomOsszealitas().getBytes());
                 }
             } catch (IOException ex) {
                 Logger.getLogger(Muveletek.class.getName()).log(Level.SEVERE, null, ex);
@@ -383,7 +384,20 @@ public class Muveletek extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuFajlMentesMaskentActionPerformed
 
     private void mnuFajlMegnyitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFajlMegnyitActionPerformed
-        JOptionPane.showConfirmDialog(this, "Biztosan megnyitod ezt a fájlt?", "A fájl állapota: ", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("megnyitás");
+        fc.setCurrentDirectory(new File("."));
+        
+        int kivalasztottam = fc.showSaveDialog(this);
+        File f = fc.getSelectedFile();
+        
+        int valasztas = JOptionPane.showConfirmDialog(this, "Biztosan megnyitod ezt a fájlt?", "A fájl állapota: ", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if(valasztas == JOptionPane.YES_OPTION){
+            lblEredmeny.setText("<html>ERDEMÉNY: "+f.getPath()+"<br>Könyvtár:"+f.getName()+"</html>");
+        }else{
+            JOptionPane.showMessageDialog(this, "Megnyitás megszakítva","Nincs megnyitás",JOptionPane.INFORMATION_MESSAGE);
+        }
+        
     }//GEN-LAST:event_mnuFajlMegnyitActionPerformed
 
     /**
@@ -458,4 +472,19 @@ public class Muveletek extends javax.swing.JFrame {
     private javax.swing.JPanel pnlGyakorlas;
     private javax.swing.JTextField txtEredmeny;
     // End of variables declaration//GEN-END:variables
+
+    private String tartalomOsszealitas() {
+        String statisztika = "Statisztika : \n";
+        JLabel [] lblTomb = new JLabel []{lblOsszKerdes,lblOsszeadProba,lblOsszKerdes,lblOsszKerdes,lblKivonasKerdes,lblKivonasProba,lblOsszeadKerdes,lblOsszKerdes};
+        
+        for (int i = 0; i < lblTomb.length; i += 2) {
+            JLabel labKerdes = lblTomb[i];
+            JLabel labProba = lblTomb[i+1];
+            String format = "%30s%30s>\n";
+            statisztika =  String.format(format ,labKerdes.getText(),labProba.getText());
+            //statisztika+=labKerdes.getText()+"\t";
+            //statisztika+=labProba.getText()+"\n";
+        }
+        return "Statisztika : ";
+    }
 }
