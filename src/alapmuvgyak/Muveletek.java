@@ -327,7 +327,7 @@ public class Muveletek extends javax.swing.JFrame {
             if (f.isDirectory()) {
                 lblEredmeny.setText("<html>Elérés: " + f.getPath() + "<br>könyvtár: " + f.getName() + "</html>");
                 try {
-                    Files.write(Paths.get(f.getPath(), "stat.txt"), "Statisztika:".getBytes());
+                    Files.write(Paths.get(f.getPath(), "stat.txt"), tartalomOsszealitas().getBytes());
                 } catch (IOException ex) {
                     Logger.getLogger(Muveletek.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -480,7 +480,13 @@ public class Muveletek extends javax.swing.JFrame {
         for (int i = 0; i < lblTomb.length; i += 2) {
             JLabel labKerdes = lblTomb[i];
             JLabel labProba = lblTomb[i+1];
-            String format = "%30s%30s>\n";
+            String kerdes = labKerdes.getText();
+            final int HE = 3;
+            int kerdesmaxHossz = kerdes.length();
+            String proba = labProba.getText();
+            int probamaxHossz = proba.length();
+            
+            String format = "%"+(kerdesmaxHossz+HE)+"s%"+(probamaxHossz+HE)+"s\n";
             statisztika =  String.format(format ,labKerdes.getText(),labProba.getText());
             //statisztika+=labKerdes.getText()+"\t";
             //statisztika+=labProba.getText()+"\n";
