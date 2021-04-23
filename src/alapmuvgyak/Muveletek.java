@@ -16,9 +16,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Muveletek extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Muveletek
-     */
+    int oszatsKerdesekSzama = 0;
+    int osszkerdesekSzama = 0;
+    int szorzadKérdásekSzama = 0;
+    int osztprobalkozasokszam=0;
+    int szorzasProbaSzam = 0;
     public Muveletek() {
         initComponents();
     }
@@ -260,6 +262,11 @@ public class Muveletek extends javax.swing.JFrame {
 
         buttonGroup1.add(mnuMuveletOsztas);
         mnuMuveletOsztas.setText("Osztás");
+        mnuMuveletOsztas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuMuveletOsztasActionPerformed(evt);
+            }
+        });
         mnuMuvelet.add(mnuMuveletOsztas);
 
         buttonGroup1.add(mnuMuveletSzorzas);
@@ -305,7 +312,16 @@ public class Muveletek extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEllenorzesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEllenorzesActionPerformed
-
+       osztprobalkozasokszam++;
+       lblOsszKerdes.setText("Összes próbálkozás száma : "+ osztprobalkozasokszam);
+       
+       if(mnuMuvelet.isSelected()){
+           osztprobalkozasokszam++;
+           lblOsztasProba.setText("Osztás : "+ osztprobalkozasokszam);
+       }else if(mnuMuvelet.isSelected()){
+           szorzasProbaSzam++;
+           lblSzorzasProba.setText("Szorzasaim : "+ szorzasProbaSzam);
+       }
     }//GEN-LAST:event_btnEllenorzesActionPerformed
 
     private void btnMegoldasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMegoldasActionPerformed
@@ -400,6 +416,22 @@ public class Muveletek extends javax.swing.JFrame {
         
     }//GEN-LAST:event_mnuFajlMegnyitActionPerformed
 
+    private void mnuMuveletOsztasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMuveletOsztasActionPerformed
+        boolean jo;
+        int osztando, oszto;
+        do{
+        osztando=(int)(Math.random()*101);
+        oszto=(int)(Math.random()*101);
+        
+        jo = oszto != 0 && osztando % oszto == 0 ; 
+        }while(!jo);
+        lblFeladat.setText(osztando + "/" + oszto + "=");
+        lblOsszKerdes.setText("Össz kérdések száma :"+osszkerdesekSzama);
+        szorzadKérdásekSzama++;
+        lblSzorzasKerdes.setText("Szorzas : "+szorzadKérdásekSzama);
+        
+    }//GEN-LAST:event_mnuMuveletOsztasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -476,15 +508,16 @@ public class Muveletek extends javax.swing.JFrame {
     private String tartalomOsszealitas() {
         String statisztika = "Statisztika : \n";
         JLabel [] lblTomb = new JLabel []{lblOsszKerdes,lblOsszeadProba,lblOsszKerdes,lblOsszKerdes,lblKivonasKerdes,lblKivonasProba,lblOsszeadKerdes,lblOsszKerdes};
-        
+        final int HE = 3;
+            int kerdesmaxHossz = lblOsszKerdes.getText().length();
+            int proba = lblOsztasProba.getText().length();
+            int probamaxHossz = proba;
+            
         for (int i = 0; i < lblTomb.length; i += 2) {
             JLabel labKerdes = lblTomb[i];
             JLabel labProba = lblTomb[i+1];
             String kerdes = labKerdes.getText();
-            final int HE = 3;
-            int kerdesmaxHossz = kerdes.length();
-            String proba = labProba.getText();
-            int probamaxHossz = proba.length();
+            
             
             String format = "%"+(kerdesmaxHossz+HE)+"s%"+(probamaxHossz+HE)+"s\n";
             statisztika =  String.format(format ,labKerdes.getText(),labProba.getText());
