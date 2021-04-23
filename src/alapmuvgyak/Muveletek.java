@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.stage.FileChooser;
@@ -400,6 +401,8 @@ public class Muveletek extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuFajlMentesMaskentActionPerformed
 
     private void mnuFajlMegnyitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFajlMegnyitActionPerformed
+        //Fájl helyének més nevének kiválasztása.
+        
         JFileChooser fc = new JFileChooser();
         fc.setDialogTitle("megnyitás");
         fc.setCurrentDirectory(new File("."));
@@ -409,10 +412,32 @@ public class Muveletek extends javax.swing.JFrame {
         
         int valasztas = JOptionPane.showConfirmDialog(this, "Biztosan megnyitod ezt a fájlt?", "A fájl állapota: ", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if(valasztas == JOptionPane.YES_OPTION){
+            
+            
+            
             lblEredmeny.setText("<html>ERDEMÉNY: "+f.getPath()+"<br>Könyvtár:"+f.getName()+"</html>");
         }else{
             JOptionPane.showMessageDialog(this, "Megnyitás megszakítva","Nincs megnyitás",JOptionPane.INFORMATION_MESSAGE);
         }
+        
+        //Fájl tényleges megnyit0ásda
+        Path path = Paths.get(fn);
+        try{
+            byte[] bajtTomb = Files.readAllBytes(path);
+            byte egyBayteTomb=bajtTomb[0];
+            
+            List<String> stringLista = Files.readAllLines(path);
+            String egySor = stringLista.get(1);
+            String regEx = ":";
+            String[] adatok = egySor.split(regEx);
+            System.out.println(adatok);
+            int temp = 7;
+            
+        } catch(IOException ex){
+            Logger.getLogger(Muveletek.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         
     }//GEN-LAST:event_mnuFajlMegnyitActionPerformed
 
